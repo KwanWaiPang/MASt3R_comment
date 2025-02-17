@@ -9,7 +9,7 @@
 
 [comment]: <> (  <h2 align="center">PAPER</h2>)
   <h3 align="center">
-  <a href="https://kwanwaipang.github.io/File/Blogs/Poster/paper_reading_MASt3R-SLAM.html#dust3r:-geometric-3d-vision-made-easy">Blog</a> 
+  <a href="https://kwanwaipang.github.io/File/Blogs/Poster/MASt3R-SLAM.html">Blog</a> 
   | <a href="https://github.com/KwanWaiPang/DUSt3R_comment">My Test on DUSt3R</a>
   | <a href="https://github.com/naver/mast3r">Original Github Page</a>
   </h3>

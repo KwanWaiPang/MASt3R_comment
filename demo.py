@@ -36,9 +36,9 @@ if __name__ == '__main__':
     if args.weights is not None:
         weights_path = args.weights
     else:
-        weights_path = "naver/" + args.model_name
+        weights_path = "naver/" + args.model_name#模型路径
 
-    model = AsymmetricMASt3R.from_pretrained(weights_path).to(args.device)
+    model = AsymmetricMASt3R.from_pretrained(weights_path).to(args.device)#加载模型
     chkpt_tag = hash_md5(weights_path)
 
     def get_context(tmp_dir):
@@ -47,5 +47,6 @@ if __name__ == '__main__':
     with get_context(args.tmp_dir) as tmpdirname:
         cache_path = os.path.join(tmpdirname, chkpt_tag)
         os.makedirs(cache_path, exist_ok=True)
+        # run the demo
         main_demo(cache_path, model, args.device, args.image_size, server_name, args.server_port, silent=args.silent,
                   share=args.share, gradio_delete_cache=args.gradio_delete_cache)

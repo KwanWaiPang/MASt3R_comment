@@ -284,7 +284,7 @@ def resize_image_to_max(max_image_size, rgb, K):
         new_K = K
     return rgb_tensor, new_K, to_orig_max, to_resize_max, (HMax, WMax)
 
-
+# 进行Visual Localization
 if __name__ == '__main__':
     parser = get_args_parser()
     args = parser.parse_args()

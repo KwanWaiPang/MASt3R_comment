@@ -7,13 +7,13 @@
 import numpy as np
 import torch
 
-
+# 传入的scene_graph为场景图类型，决定生成图像对的策略（默认complete）。
 def make_pairs(imgs, scene_graph='complete', prefilter=None, symmetrize=True):
     pairs = []
     if scene_graph == 'complete':  # complete graph
         for i in range(len(imgs)):
             for j in range(i):
-                pairs.append((imgs[i], imgs[j]))
+                pairs.append((imgs[i], imgs[j]))#生成所有可能的无序图像对，即每对图像只出现一次（如 (A, B)，但不包含 (B, A)）。
     elif scene_graph.startswith('swin'):
         iscyclic = not scene_graph.endswith('noncyclic')
         try:
@@ -55,7 +55,7 @@ def make_pairs(imgs, scene_graph='complete', prefilter=None, symmetrize=True):
         for j in range(len(imgs)):
             if j != refid:
                 pairs.append((imgs[refid], imgs[j]))
-    if symmetrize:
+    if symmetrize:#是否对称化图像对（添加反向对）。
         pairs += [(img2, img1) for img1, img2 in pairs]
 
     # now, remove edges

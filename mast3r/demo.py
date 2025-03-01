@@ -20,8 +20,8 @@ from mast3r.cloud_opt.sparse_ga import sparse_global_alignment
 from mast3r.cloud_opt.tsdf_optimizer import TSDFPostProcess
 
 import mast3r.utils.path_to_dust3r  # noqa
-from dust3r.image_pairs import make_pairs
-from dust3r.utils.image import load_images
+from dust3r.dust3r.image_pairs import make_pairs
+from dust3r.dust3r.utils.image import load_images
 from dust3r.utils.device import to_numpy
 from dust3r.viz import add_scene_cam, CAM_COLORS, OPENGL, pts3d_to_trimesh, cat_meshes
 from dust3r.demo import get_args_parser as dust3r_get_args_parser
@@ -144,12 +144,13 @@ def get_reconstructed_scene(outdir, gradio_delete_cache, model, device, silent, 
     from a list of images, run mast3r inference, sparse global aligner.
     then run get_3D_model_from_scene
     """
-    imgs = load_images(filelist, size=image_size, verbose=not silent)
+    imgs = load_images(filelist, size=image_size, verbose=not silent)#加载一系列图片
     if len(imgs) == 1:
         imgs = [imgs[0], copy.deepcopy(imgs[0])]
         imgs[1]['idx'] = 1
         filelist = [filelist[0], filelist[0] + '_2']
 
+    # 场景生成的策略
     scene_graph_params = [scenegraph_type]
     if scenegraph_type in ["swin", "logwin"]:
         scene_graph_params.append(str(winsize))
@@ -158,7 +159,8 @@ def get_reconstructed_scene(outdir, gradio_delete_cache, model, device, silent, 
     if scenegraph_type in ["swin", "logwin"] and not win_cyclic:
         scene_graph_params.append('noncyclic')
     scene_graph = '-'.join(scene_graph_params)
-    pairs = make_pairs(imgs, scene_graph=scene_graph, prefilter=None, symmetrize=True)
+    pairs = make_pairs(imgs, scene_graph=scene_graph, prefilter=None, symmetrize=True)#生成图像对，根据一定的策略生成各种可能存在的图像的对
+
     if optim_level == 'coarse':
         niter2 = 0
     # Sparse GA (forward mast3r -> matching -> 3D optim -> 2D refinement -> triangulation)
@@ -171,6 +173,8 @@ def get_reconstructed_scene(outdir, gradio_delete_cache, model, device, silent, 
     else:
         cache_dir = os.path.join(outdir, 'cache')
     os.makedirs(cache_dir, exist_ok=True)
+
+    # 运行sparse_global_alignment函数，进行稀疏全局对齐
     scene = sparse_global_alignment(filelist, pairs, cache_dir,
                                     model, lr1=lr1, niter1=niter1, lr2=lr2, niter2=niter2, device=device,
                                     opt_depth='depth' in optim_level, shared_intrinsics=shared_intrinsics,
@@ -219,9 +223,10 @@ def main_demo(tmpdirname, model, device, image_size, server_name, server_port, s
     if not silent:
         print('Outputing stuff in', tmpdirname)
 
+    # 三维重建的函数
     recon_fun = functools.partial(get_reconstructed_scene, tmpdirname, gradio_delete_cache, model, device,
-                                  silent, image_size)
-    model_from_scene_fun = functools.partial(get_3D_model_from_scene, silent)
+                                  silent, image_size)#获取三维重建的场景（已经进行匹配以及dust3r的计算了~）
+    model_from_scene_fun = functools.partial(get_3D_model_from_scene, silent)#从场景中获取3D模型
 
     def get_context(delete_cache):
         css = """.gradio-container {margin: 0 !important; min-width: 100%};"""

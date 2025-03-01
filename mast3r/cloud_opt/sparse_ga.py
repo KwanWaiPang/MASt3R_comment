@@ -127,11 +127,11 @@ def sparse_global_alignment(imgs, pairs_in, cache_path, model, subsample=8, desc
         lora_depth: smart dimensionality reduction with depthmaps
     """
     # Convert pair naming convention from dust3r to mast3r
-    pairs_in = convert_dust3r_pairs_naming(imgs, pairs_in)
+    pairs_in = convert_dust3r_pairs_naming(imgs, pairs_in)#将dust3r的图像对命名转换为mast3r的图像对命名。
     # forward pass
     pairs, cache_path = forward_mast3r(pairs_in, model,
                                        cache_path=cache_path, subsample=subsample,
-                                       desc_conf=desc_conf, device=device)
+                                       desc_conf=desc_conf, device=device)#前向传播，生成图像对的特征和匹配点。
 
     # extract canonical pointmaps
     tmp_pairs, pairwise_scores, canonical_views, canonical_paths, preds_21 = \
@@ -552,7 +552,7 @@ def forward_mast3r(pairs, model, cache_path, desc_conf='desc_conf',
             torch.save(to_cpu((X11, C11, X21, C21)), mkdir_for(path1))
             torch.save(to_cpu((X22, C22, X12, C12)), mkdir_for(path2))
 
-            # perform reciprocal matching
+            # perform reciprocal matching（提取匹配）
             corres = extract_correspondences(descs, qonfs, device=device, subsample=subsample)
 
             conf_score = (C11.mean() * C12.mean() * C21.mean() * C22.mean()).sqrt().sqrt()

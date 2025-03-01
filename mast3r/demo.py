@@ -187,6 +187,7 @@ def get_reconstructed_scene(outdir, gradio_delete_cache, model, device, silent, 
         outfile_name = tempfile.mktemp(suffix='_scene.glb', dir=outdir)
 
     scene_state = SparseGAState(scene, gradio_delete_cache, cache_dir, outfile_name)
+    # 从场景中获取3D模型
     outfile = get_3D_model_from_scene(silent, scene_state, min_conf_thr, as_pointcloud, mask_sky,
                                       clean_depth, transparent_cams, cam_size, TSDF_thresh)
     return scene_state, outfile
@@ -226,6 +227,7 @@ def main_demo(tmpdirname, model, device, image_size, server_name, server_port, s
     # 三维重建的函数
     recon_fun = functools.partial(get_reconstructed_scene, tmpdirname, gradio_delete_cache, model, device,
                                   silent, image_size)#获取三维重建的场景（已经进行匹配以及dust3r的计算了~）
+    # 下面应该都是后续可视化以及处理的操作了~get_reconstructed_scene函数应该是最主要的处理的函数
     model_from_scene_fun = functools.partial(get_3D_model_from_scene, silent)#从场景中获取3D模型
 
     def get_context(delete_cache):

@@ -27,7 +27,7 @@ from dust3r.inference import inference, loss_of_one_batch
 from dust3r.utils.geometry import geotrf, colmap_to_opencv_intrinsics, opencv_to_colmap_intrinsics
 from dust3r.datasets.utils.transforms import ImgNorm
 from dust3r_visloc.datasets import *
-from dust3r_visloc.localization import run_pnp
+from dust3r.dust3r_visloc.localization import run_pnp
 from dust3r_visloc.evaluation import get_pose_error, aggregate_stats, export_results
 from dust3r_visloc.datasets.utils import get_HW_resolution, rescale_points3d
 
@@ -315,6 +315,8 @@ if __name__ == '__main__':
         params_str = params_str + f'_{args.max_image_size}'
     if args.coarse_to_fine and args.c2f_crop_with_homography:
         params_str = params_str + '_with_homography'
+
+    #遍历数据集    
     for idx in tqdm(range(len(dataset))):
         views = dataset[(idx)]  # 0 is the query
         query_view = views[0]
@@ -512,6 +514,7 @@ if __name__ == '__main__':
                 reprojection_error_img = reprojection_error_diag_ratio * math.sqrt(W**2 + H**2)
             else:
                 reprojection_error_img = reprojection_error
+            # 获取了匹配的2D-3D点对，然后通过PnP算法求解相机位姿
             success, pr_querycam_to_world = run_pnp(query_pts2d, query_pts3d,
                                                     query_view['intrinsics'], query_view['distortion'],
                                                     pnp_mode, reprojection_error_img, img_size=[W, H])
@@ -520,7 +523,7 @@ if __name__ == '__main__':
             abs_transl_error = float('inf')
             abs_angular_error = float('inf')
         else:
-            abs_transl_error, abs_angular_error = get_pose_error(pr_querycam_to_world, query_view['cam_to_world'])
+            abs_transl_error, abs_angular_error = get_pose_error(pr_querycam_to_world, query_view['cam_to_world'])#计算位姿误差
 
         pose_errors.append(abs_transl_error)
         angular_errors.append(abs_angular_error)

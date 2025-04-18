@@ -127,3 +127,6 @@
 
 # # Pyre type checker
 # .pyre/
+
+
+checkpoints/

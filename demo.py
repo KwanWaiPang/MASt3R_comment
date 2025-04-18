@@ -10,6 +10,10 @@ import torch
 import tempfile
 from contextlib import nullcontext
 
+# 更改代码中使用的临时目录到一个你有权限的目录
+import os
+os.environ['GRADIO_TEMP_DIR'] = '/home/gwp/mast3r/temp'
+
 from mast3r.demo import get_args_parser, main_demo
 
 from mast3r.model import AsymmetricMASt3R

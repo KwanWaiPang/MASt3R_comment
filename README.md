@@ -82,3 +82,10 @@ demo_dust3r_ga.py is the same demo as in dust3r (+ compatibility for MASt3R mode
 see https://github.com/naver/dust3r?tab=readme-ov-file#interactive-demo for details
 
 ```
+
+* 注意，可能会出现报错`/tmp/gradio/fd76484cbb6559e836bf4706b63ca0dd7d9b622da6b42f22249c8f4d4d3394fd`,对于用服务器的用户可能出现访问权限的问题，在代码中设置访问临时目录即可,详细请见[code](demo.py)
+
+```py
+import os
+os.environ['GRADIO_TEMP_DIR'] = '/path/to/your/temp/dir'
+```

@@ -89,3 +89,10 @@ see https://github.com/naver/dust3r?tab=readme-ov-file#interactive-demo for deta
 import os
 os.environ['GRADIO_TEMP_DIR'] = '/path/to/your/temp/dir'
 ```
+
+* 下面通过代码[link](matching.ipynb)来测试匹配的效果
+
+```bash
+conda activate mast3r 
+pip install ipykernel 
+```

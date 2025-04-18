@@ -29,7 +29,8 @@ except AttributeError as e:
 
     asmk.index.FaissGpuL2Index = FaissCpuL2Index
 
-from asmk import asmk_method  # noqa
+# from asmk import asmk_method  # noqa
+from asmk.asmk import asmk_method
 
 
 def get_args_parser():

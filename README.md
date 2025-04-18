@@ -67,8 +67,9 @@ wget https://download.europe.naverlabs.com/ComputerVision/MASt3R/MASt3R_ViTLarge
 
 ```bash
 conda activate mast3r 
+conda install faiss-gpu
 # python3 demo.py --model_name MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric
-CUDA_VISIBLE_DEVICES=1 python3 demo.py --model_name MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric
+CUDA_VISIBLE_DEVICES=0 python3 demo.py --model_name MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric
 # vscode终端运行上面命令后，本机网页打开（采用的是网页UI）
 
 # Use --weights to load a checkpoint from a local file, eg --weights checkpoints/MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric.pth

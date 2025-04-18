@@ -130,3 +130,4 @@
 
 
 checkpoints/
+*.pyc

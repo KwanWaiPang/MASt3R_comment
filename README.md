@@ -2,6 +2,12 @@
 <h1>测试 Grounding Image Matching in 3D with MASt3R</h1>
 </div>
 
+<h3 align="center">
+<a href="https://github.com/naver/mast3r">Original Github Page</a>
+</h3>
+<div align="justify">
+</div>
+
 
 ```bash
 #下载代码链接，并切换分支a100
@@ -15,7 +21,9 @@ git clone --recursive git@github.com:KwanWaiPang/MASt3R_comment.git
 ```bash
 conda create -n mast3r python=3.11 cmake=3.14.0
 conda activate mast3r 
-conda install pytorch torchvision pytorch-cuda=12.1 -c pytorch -c nvidia  # use the correct version of cuda for your system
+# conda remove --name mast3r --all
+
+conda install pytorch torchvision pytorch-cuda=12.1 -c pytorch -c nvidia  # use the correct version of cuda for your system A100中采用的为cuda12.2
 pip install -r requirements.txt
 pip install -r dust3r/requirements.txt
 # Optional: you can also install additional packages to:
@@ -34,7 +42,7 @@ git clone https://github.com/jenicek/asmk
 cd asmk/cython/
 cythonize *.pyx
 cd ..
-pip install .  # or python3 setup.py build_ext --inplace
+python3 setup.py build_ext --inplace
 cd ..
 ```
 
